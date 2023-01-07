@@ -1,0 +1,71 @@
+package info.trekto.jos.core.impl.arbitrary_precision;
+
+import info.trekto.jos.core.model.ImmutableSimulationObject;
+import info.trekto.jos.core.model.SimulationObject;
+import info.trekto.jos.core.model.impl.TripleNumber;
+import info.trekto.jos.core.numbers.Number;
+
+import java.util.List;
+
+public class ThreadSimulation extends Thread
+{
+    private List<SimulationObject> oldObjects;
+    private List<SimulationObject> newObjects;
+    private SimulationLogicAP logicAP;
+
+    public ThreadSimulation(SimulationLogicAP logicAP, List<SimulationObject> oldObjects, List<SimulationObject> newObjects) {
+        this.logicAP = logicAP;
+        this.oldObjects = oldObjects;
+        this.newObjects = newObjects;
+    }
+
+    public void run(){
+        for(int i = 0; i < oldObjects.size(); i++) {
+            runObject(oldObjects.get(i), newObjects.get(i));
+        }
+    }
+
+    private void runObject(ImmutableSimulationObject oldObject, SimulationObject newObject){
+        /* Speed is scalar, velocity is vector. Velocity = speed + direction. */
+
+        /* Time T passed */
+
+        /* Calculate acceleration */
+        /* For the time T, forces accelerated the objects (changed their velocities).
+         * Forces are calculated having the positions of the objects at the beginning of the period,
+         * and these forces are applied for time T. */
+        TripleNumber acceleration = new TripleNumber();
+        for (ImmutableSimulationObject tempObject : logicAP.simulation.getObjects()) {
+            if (tempObject == oldObject) {
+                continue;
+            }
+            /* Calculate force */
+            Number distance = logicAP.calculateDistance(oldObject, tempObject);
+            TripleNumber force = logicAP.simulation.getForceCalculator().calculateForceAsVector(oldObject, tempObject, distance);
+
+            /* Add to current acceleration */
+            acceleration = logicAP.calculateAcceleration(oldObject, acceleration, force);
+        }
+
+        /* Move objects */
+        /* For the time T, velocity moved the objects (changed their positions).
+         * New objects positions are calculated having the velocity at the beginning of the period,
+         * and these velocities are applied for time T. */
+        logicAP.moveObject(newObject);
+
+        /* Change velocity */
+        /* For the time T, accelerations changed the velocities.
+         * Velocities are calculated having the accelerations of the objects at the beginning of the period,
+         * and these accelerations are applied for time T. */
+        newObject.setVelocity(logicAP.calculateVelocity(oldObject));
+
+        /* Change the acceleration */
+        newObject.setAcceleration(acceleration);
+
+        /* Bounce from screen borders */
+        /* Only change the direction of the velocity */
+        if (logicAP.simulation.getProperties().isBounceFromScreenBorders()) {
+            logicAP.bounceFromScreenBorders(newObject);
+        }
+    }
+}

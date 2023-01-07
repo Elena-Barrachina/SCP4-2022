@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="info.trekto.jos.gui.MainForm">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="1464" height="1097"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="fcf5e" binding="simulationPropertiesPanel" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+        </properties>
+        <border type="none" title="Simulation properties"/>
+        <children>
+          <grid id="d8db8" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="6" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <visible value="true"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="ed0dd" class="javax.swing.JLabel" binding="numberOfIterationsLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Number of iterations"/>
+                </properties>
+              </component>
+              <component id="493d8" class="javax.swing.JTextField" binding="numberOfIterationsTextField">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <columns value="8"/>
+                  <text value="0"/>
+                </properties>
+              </component>
+              <component id="712c5" class="javax.swing.JLabel" binding="secondsPerIterationLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Seconds per iteration"/>
+                </properties>
+              </component>
+              <component id="477f7" class="javax.swing.JTextField" binding="secondsPerIterationTextField">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <columns value="8"/>
+                  <text value="0.005"/>
+                </properties>
+              </component>
+              <component id="af226" class="javax.swing.JLabel" binding="interactingLawLabel">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Interacting law"/>
+                </properties>
+              </component>
+              <component id="33eca" class="javax.swing.JLabel" binding="numberOfObjectsLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Number of objects"/>
+                </properties>
+              </component>
+              <component id="28ceb" class="javax.swing.JTextField" binding="numberOfObjectsTextField">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <columns value="8"/>
+                  <text value="100"/>
+                </properties>
+              </component>
+              <component id="56cd7" class="javax.swing.JComboBox" binding="interactingLawComboBox">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                </properties>
+              </component>
+              <component id="9f95f" class="javax.swing.JCheckBox" binding="realTimeVisualizationCheckBox" default-binding="true">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <horizontalTextPosition value="10"/>
+                  <selected value="true"/>
+                  <text value="Real time visualization"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="787a2" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="e1fe3" class="javax.swing.JButton" binding="generateObjectsButton" default-binding="true">
+                <constraints>
+                  <grid row="7" column="1" row-span="1" col-span="9" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Generate objects"/>
+                </properties>
+              </component>
+              <component id="ab3b2" class="javax.swing.JLabel" binding="aboutLabel">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <foreground color="-16776961"/>
+                  <text value="About"/>
+                </properties>
+              </component>
+              <component id="9daa2" class="javax.swing.JLabel" binding="numberTypeLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <foreground color="-16776961"/>
+                  <labelFor value="3d7d9"/>
+                  <text value="Number type"/>
+                </properties>
+              </component>
+              <component id="3d7d9" class="javax.swing.JComboBox" binding="numberTypeComboBox">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="9" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="d2067" class="javax.swing.JLabel" binding="executionModeLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <labelFor value="4a629"/>
+                  <text value="Execution mode"/>
+                </properties>
+              </component>
+              <component id="4a629" class="javax.swing.JComboBox" binding="executionModeComboBox">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="9" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="8f5cc" class="javax.swing.JLabel" binding="precisionLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <text value="Precision"/>
+                </properties>
+              </component>
+              <component id="76a60" class="javax.swing.JTextField" binding="precisionTextField">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="9" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <text value="16"/>
+                </properties>
+              </component>
+              <component id="6122d" class="javax.swing.JLabel" binding="cpuGpuThresholdLabel">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="10" bottom="0" right="5" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <foreground color="-16772097"/>
+                  <labelFor value="d0331"/>
+                  <text value="CPU/GPU threshold"/>
+                </properties>
+              </component>
+              <component id="1ff43" class="javax.swing.JButton" binding="detectCpuGpuThresholdButton">
+                <constraints>
+                  <grid row="3" column="5" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <text value="Detect threshold"/>
+                </properties>
+              </component>
+              <component id="d0331" class="javax.swing.JTextField" binding="cpuGpuThresholdField">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <columns value="4"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="41593" class="javax.swing.JTextField" binding="corTextField">
+                <constraints>
+                  <grid row="6" column="7" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <columns value="3"/>
+                  <enabled value="false"/>
+                  <text value="0.5"/>
+                </properties>
+              </component>
+              <component id="37879" class="javax.swing.JCheckBox" binding="bounceFromScreenBordersCheckBox">
+                <constraints>
+                  <grid row="5" column="1" row-span="1" col-span="9" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <hideActionText value="true"/>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="10"/>
+                  <selected value="false"/>
+                  <text value="Bounce from screen borders"/>
+                </properties>
+              </component>
+              <component id="9bf1e" class="javax.swing.JLabel" binding="corLabel">
+                <constraints>
+                  <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="7" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                  <labelFor value="41593"/>
+                  <text value="Coef. of restitution"/>
+                </properties>
+              </component>
+              <component id="ded8" class="javax.swing.JCheckBox" binding="mergeObjectsWhenCollideCheckBox" default-binding="true">
+                <constraints>
+                  <grid row="6" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <horizontalTextPosition value="10"/>
+                  <selected value="true"/>
+                  <text value="Merge on collision"/>
+                </properties>
+              </component>
+              <component id="cc486" class="javax.swing.JLabel" binding="scp">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font style="1"/>
+                  <foreground color="-14029655"/>
+                  <labelFor value="4a629"/>
+                  <text value="SCP"/>
+                </properties>
+              </component>
+              <component id="a8474" class="javax.swing.JLabel" binding="cpuGpuThresholdLabel2">
+                <constraints>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="5" bottom="0" right="5" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <labelFor value="d0331"/>
+                  <text value="objects"/>
+                </properties>
+              </component>
+              <component id="403b8" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="5" bottom="0" right="5" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <labelFor value="d0331"/>
+                  <text value="Threads number"/>
+                </properties>
+              </component>
+              <component id="eb986" class="javax.swing.JSpinner" binding="spinnerThreadsNumber">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font style="0"/>
+                  <foreground color="-15217733"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="478cb" class="javax.swing.JCheckBox" binding="saveToFileCheckBox" default-binding="true">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <horizontalTextPosition value="10"/>
+              <text value="Save to file"/>
+            </properties>
+          </component>
+          <component id="839df" class="javax.swing.JLabel" binding="saveEveryNthIterationLabel1">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="2" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value="Save every"/>
+            </properties>
+          </component>
+          <component id="6d2f9" class="javax.swing.JButton" binding="browseButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="1" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="0"/>
+              <text value="Browse"/>
+            </properties>
+          </component>
+          <component id="d4290" class="javax.swing.JLabel" binding="inputFilePathLabel">
+            <constraints>
+              <grid row="0" column="5" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="8" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="2f42d" class="javax.swing.JTextField" binding="outputFileTextField">
+            <constraints>
+              <grid row="2" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="0" bottom="0" right="2" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+            </properties>
+          </component>
+          <component id="ceafd" class="javax.swing.JTextField" binding="saveEveryNthIterationTextField">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <columns value="4"/>
+              <enabled value="false"/>
+              <text value="1"/>
+            </properties>
+          </component>
+          <component id="b5f86" class="javax.swing.JCheckBox" binding="saveMassCheckBox" default-binding="true">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <horizontalTextPosition value="10"/>
+              <text value="Save mass"/>
+            </properties>
+          </component>
+          <component id="e2499" class="javax.swing.JCheckBox" binding="saveVelocityCheckBox" default-binding="true">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <horizontalTextPosition value="10"/>
+              <text value="Save velocity"/>
+            </properties>
+          </component>
+          <component id="a146b" class="javax.swing.JCheckBox" binding="saveAccelerationCheckBox" default-binding="true">
+            <constraints>
+              <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <horizontalTextPosition value="10"/>
+              <text value="Save acceleration"/>
+            </properties>
+          </component>
+          <component id="5b640" class="javax.swing.JLabel" binding="outputFileLabel">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="8" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <labelFor value="2f42d"/>
+              <text value="Output file"/>
+            </properties>
+          </component>
+          <component id="7cb7e" class="javax.swing.JButton" binding="savePropertiesButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <text value="Save properties"/>
+            </properties>
+          </component>
+          <component id="b6730" class="javax.swing.JLabel" binding="saveEveryNthIterationLabel2">
+            <constraints>
+              <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value="-th iteration"/>
+            </properties>
+          </component>
+          <component id="43a17" class="javax.swing.JLabel" binding="avgFileSize">
+            <constraints>
+              <grid row="4" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value="Average file size: ---"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <scrollpane id="6d490" binding="consolePanel">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="2" bottom="0" right="2" weightx="1.0" weighty="0.75"/>
+        </constraints>
+        <properties>
+          <toolTipText value=""/>
+        </properties>
+        <border type="none" title="Output conosle"/>
+        <children>
+          <component id="8685c" class="javax.swing.JTextArea" binding="consoleTextArea">
+            <constraints/>
+            <properties>
+              <font/>
+              <rows value="20"/>
+              <text value=""/>
+              <wrapStyleWord value="false"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <scrollpane id="4011f" binding="initialObjectsPanel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="5" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="2" bottom="0" right="0" weightx="1.0" weighty="0.25"/>
+        </constraints>
+        <properties/>
+        <border type="none" title="Initial objects"/>
+        <children>
+          <component id="b42b7" class="javax.swing.JTable" binding="initialObjectsTable">
+            <constraints/>
+            <properties>
+              <enabled value="true"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <grid id="b6a0c" binding="playingPanel" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="2" bottom="0" right="0" weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="3567b" class="javax.swing.JLabel" binding="playingSpeedLabel">
+            <constraints>
+              <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <enabled value="true"/>
+              <foreground color="-16776961"/>
+              <text value="Playing speed"/>
+            </properties>
+          </component>
+          <component id="8a44d" class="javax.swing.JTextField" binding="playingSpeedTextField">
+            <constraints>
+              <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <columns value="3"/>
+              <enabled value="true"/>
+              <text value="0"/>
+              <toolTipText value=""/>
+            </properties>
+          </component>
+          <component id="e24f2" class="javax.swing.JLabel" binding="playFromLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value="Play from:"/>
+            </properties>
+          </component>
+          <component id="90cdd" class="javax.swing.JLabel" binding="playFileLabel">
+            <constraints>
+              <grid row="1" column="2" row-span="1" col-span="9" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="db718" class="javax.swing.JTextField" binding="fontSize">
+            <constraints>
+              <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <columns value="2"/>
+              <enabled value="false"/>
+              <text value="24"/>
+            </properties>
+          </component>
+          <component id="f8a16" class="javax.swing.JCheckBox" binding="showObjectIDsCheckBox" default-binding="true">
+            <constraints>
+              <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="11"/>
+              <horizontalTextPosition value="10"/>
+              <text value="Object IDs"/>
+            </properties>
+          </component>
+          <component id="7e243" class="javax.swing.JLabel" binding="fontSizeLabel">
+            <constraints>
+              <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value="Font size:"/>
+            </properties>
+          </component>
+          <component id="5628d" class="javax.swing.JCheckBox" binding="showTrailCheckBox" default-binding="true">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <horizontalTextPosition value="10"/>
+              <text value="Trail"/>
+            </properties>
+          </component>
+          <component id="5d8da" class="javax.swing.JLabel" binding="trailSizeTextLabel">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value="Trail size:"/>
+            </properties>
+          </component>
+          <component id="8b78b" class="javax.swing.JTextField" binding="trailSizeTextField">
+            <constraints>
+              <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <columns value="4"/>
+              <enabled value="false"/>
+              <text value="500"/>
+            </properties>
+          </component>
+          <grid id="fe699" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="21c6b" class="javax.swing.JRadioButton" binding="playRadioButton">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Play simulation"/>
+                </properties>
+              </component>
+              <component id="1f07c" class="javax.swing.JButton" binding="playButton">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="2" bottom="0" right="2" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="Play "/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="96d91" class="javax.swing.JButton" binding="browsePlayingFileButton">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value="Browse"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="962f9" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="3ddee" class="javax.swing.JButton" binding="startButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="2" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <text value="Start"/>
+            </properties>
+          </component>
+          <component id="80397" class="javax.swing.JButton" binding="stopButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value="Stop"/>
+            </properties>
+          </component>
+          <component id="cd62e" class="javax.swing.JRadioButton" binding="runningRadioButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="Run simulation"/>
+            </properties>
+          </component>
+          <component id="f20f1" class="javax.swing.JButton" binding="pauseButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="2" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <enabled value="false"/>
+              <text value="Pause"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="a3aef" class="javax.swing.JCheckBox" binding="showTimeAndIterationCheckBox" default-binding="true">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="10"/>
+          <horizontalTextPosition value="10"/>
+          <selected value="true"/>
+          <text value="Show time and iteration"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="CpuGpuSelector">
+      <member id="adbfa"/>
+      <member id="a1d17"/>
+    </group>
+  </buttonGroups>
+</form>
