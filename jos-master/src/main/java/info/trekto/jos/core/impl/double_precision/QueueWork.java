@@ -13,42 +13,28 @@ public class QueueWork {
         this.endParticle = endParticle;
         this.lock = new ReentrantLock();
     }
-    //TODO: Create specific instance in caller class
 
-    public void updateQueueWork(QueueWork queue){
+    public void updateQueueWork(int objectsLeft){
         lock.lock();
-        try {
-            // Update particles in queue
-            // TODO:Create queue
-            queue.startParticle = 0;
-            // TODO: What is nShared here? We need the num. of particles
-            queue.endParticle = nShared;
-        } catch (Exception e){
-            // TODO: Define exception
-        } finally {
-            lock.unlock();
-        }
+        this.startParticle = 0;
+        this.endParticle = objectsLeft;
+        lock.unlock();
     }
-    //2. Update Queue Work
-    //3. Thread Simulation
-    //    Param: QueueWork
-    //4. Dynamic Update
-    /*int dynamicUpdate(struct ParticleParameters *Params){
+    int dynamicUpdate(ThreadSimulation threadSimulation){
+        lock.lock();
 
-        pthread_mutex_lock(&queue.mutex);
+        int start = this.startParticle;
+        threadSimulation.setStartParticle(start);
+        int end = start + (this.endParticle/20);
 
-        Params->startParticle = queue.startParticle;
-        int end = queue.startParticle + queue.endParticle/20;
+        if(end > this.endParticle){
+            end = this.endParticle;
+        }
+        threadSimulation.setEndParticle(end);
+        this.startParticle = end;
 
-        if(end > queue.endParticle) { end = queue.endParticle; }
+        lock.unlock();
 
-        Params->endParticle = end;
-        queue.startParticle = Params->endParticle;
-
-        //thread.set(startparticle);
-        //thread.set(endparticle);
-
-        pthread_mutex_unlock(&queue.mutex);
-        return Params -> endParticle - Params -> startParticle;
-    }*/
+        return end - start;
+    }
 }

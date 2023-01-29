@@ -49,6 +49,8 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
     private final boolean mergeOnCollision;
     private final double coefficientOfRestitution;
 
+    QueueWork queue;
+
     public SimulationLogicDouble(int numberOfObjects, double secondsPerIteration, int screenWidth, int screenHeight, boolean mergeOnCollision,
                                  double coefficientOfRestitution) {
         int n = numberOfObjects;
@@ -101,17 +103,10 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
     public void calculateAllNewValues() {
         int numberThreads = 4;
         ThreadSimulation[] threadSimulation = new ThreadSimulation[numberThreads];
-        int startIndex = 0;
-        int endIndex = 0;
         int objectsLeft = positionX.length;
         for(int i = 0; i < numberThreads; i++) {
-            int threadsLeft = numberThreads - i;
-            int objectsThread = objectsLeft / threadsLeft;
-            objectsLeft -= objectsThread;
-            startIndex = endIndex;
-            endIndex = startIndex + objectsThread;
-
-            threadSimulation[i] = new ThreadSimulation(this, startIndex, endIndex);
+            queue.updateQueueWork(objectsLeft);
+            threadSimulation[i] = new ThreadSimulation(this, queue);
             threadSimulation[i].start();
         }
 
@@ -119,9 +114,7 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
             try {
                 threadSimulation[i].join();
             } catch (InterruptedException e) {
-                System.out.println("TODOOOOOO HANDLE ERROROOOOOR");
                 CancelThreads(threadSimulation);
-                System.out.println("DOOOOOOOOONE");
             }
         }
     }
