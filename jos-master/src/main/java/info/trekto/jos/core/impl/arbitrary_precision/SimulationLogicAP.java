@@ -29,7 +29,10 @@ public class SimulationLogicAP implements SimulationLogic {
         Iterator<SimulationObject> newObjectsIterator = simulation.getAuxiliaryObjects().subList(fromIndex, toIndex).iterator();
 
         /* We should not change oldObject. We can change only newObject. */
-        int numberThreads = 4;
+        String threads = System.getenv("SIMULATION_NUMBER_OF_THREADS");
+        if (threads == null) { threads = "4"; }
+        int numberThreads = Integer.parseInt(threads);
+        System.out.println("Number of threads: " + threads);
         ThreadSimulation[] threadSimulation = new ThreadSimulation[numberThreads];
         List<SimulationObject> oldObjects = simulation.getObjects().subList(fromIndex, toIndex);
         int startIndex = 0;
