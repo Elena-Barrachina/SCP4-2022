@@ -9,19 +9,32 @@ import java.util.List;
 
 public class ThreadSimulation extends Thread
 {
+    private SimulationLogicAP logicAP;
     private List<SimulationObject> oldObjects;
     private List<SimulationObject> newObjects;
-    private SimulationLogicAP logicAP;
+    private QueueWork queue;
 
-    public ThreadSimulation(SimulationLogicAP logicAP, List<SimulationObject> oldObjects, List<SimulationObject> newObjects) {
+
+    public ThreadSimulation(SimulationLogicAP logicAP, QueueWork queue) {
         this.logicAP = logicAP;
+        this.oldObjects = null;
+        this.newObjects = null;
+        this.queue = queue;
+    }
+
+    public void setOldObjects(List<SimulationObject> oldObjects) {
         this.oldObjects = oldObjects;
+    }
+
+    public void setNewObjects(List<SimulationObject> newObjects) {
         this.newObjects = newObjects;
     }
 
     public void run(){
-        for(int i = 0; i < oldObjects.size(); i++) {
-            runObject(oldObjects.get(i), newObjects.get(i));
+        while(queue.dynamicUpdate(this)>0){
+            for(int i = 0; i < oldObjects.size(); i++) {
+                runObject(oldObjects.get(i), newObjects.get(i));
+            }
         }
     }
 

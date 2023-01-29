@@ -49,8 +49,6 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
     private final boolean mergeOnCollision;
     private final double coefficientOfRestitution;
 
-    QueueWork queue;
-
     public SimulationLogicDouble(int numberOfObjects, double secondsPerIteration, int screenWidth, int screenHeight, boolean mergeOnCollision,
                                  double coefficientOfRestitution) {
         int n = numberOfObjects;
@@ -78,7 +76,7 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
         readOnlyRadius = new double[n];
         readOnlyColor = new int[n];
         readOnlyDeleted = new boolean[n];
-        
+
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.mergeOnCollision = mergeOnCollision;
@@ -101,15 +99,19 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
 
 
     public void calculateAllNewValues() {
-        String threads = System.getenv("SIMULATION_NUMBER_OF_THREADS");
-        if (threads == null) { threads = "4"; }
-        int numberThreads = Integer.parseInt(threads);
-        System.out.println("Number of threads: " + threads);
+        int numberThreads = 4;
         ThreadSimulation[] threadSimulation = new ThreadSimulation[numberThreads];
+        int startIndex = 0;
+        int endIndex = 0;
         int objectsLeft = positionX.length;
         for(int i = 0; i < numberThreads; i++) {
-            queue.updateQueueWork(objectsLeft);
-            threadSimulation[i] = new ThreadSimulation(this, queue);
+            int threadsLeft = numberThreads - i;
+            int objectsThread = objectsLeft / threadsLeft;
+            objectsLeft -= objectsThread;
+            startIndex = endIndex;
+            endIndex = startIndex + objectsThread;
+
+            threadSimulation[i] = new ThreadSimulation(this, startIndex, endIndex);
             threadSimulation[i].start();
         }
 
@@ -117,15 +119,7 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
             try {
                 threadSimulation[i].join();
             } catch (InterruptedException e) {
-                CancelThreads(threadSimulation);
-            }
-        }
-    }
-
-    void CancelThreads(ThreadSimulation[] threads){
-        for (int i = 0; i < threads.length; i++) {
-            if (threads[i].isAlive() && (!threads[i].isInterrupted())){
-                threads[i].interrupt();
+                System.out.println("TODOOOOOO HANDLE ERROROOOOOR");
             }
         }
     }
@@ -303,21 +297,21 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
         }
         return Math.cbrt(volume / (RATIO_FOUR_THREE * PI));
     }
-    
+
     private void processTwoDimensionalCollision(int o1, int o2, double cor) {
         double v1x = velocityX[o1];
         double v1y = velocityY[o1];
         double v2x = velocityX[o2];
         double v2y = velocityY[o2];
-        
+
         double o1x = positionX[o1];
         double o1y = positionY[o1];
         double o2x = positionX[o2];
         double o2y = positionY[o2];
-        
+
         double o1m = mass[o1];
         double o2m = mass[o2];
-        
+
         // v'1y = v1y - 2*m2/(m1+m2) * dotProduct(o1, o2) / dotProduct(o1y, o1x, o2y, o2x) * (o1y-o2y)
         // v'2x = v2x - 2*m2/(m1+m2) * dotProduct(o2, o1) / dotProduct(o2x, o2y, o1x, o1y) * (o2x-o1x)
         // v'2y = v2y - 2*m2/(m1+m2) * dotProduct(o2, o1) / dotProduct(o2y, o2x, o1y, o1x) * (o2y-o1y)
@@ -351,17 +345,17 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
         velocityY[0] = o1.getVelocity().getY().doubleValue();
         velocityX[1] = o2.getVelocity().getX().doubleValue();
         velocityY[1] = o2.getVelocity().getY().doubleValue();
-        
+
         positionX[0] = o1.getX().doubleValue();
         positionY[0] = o1.getY().doubleValue();
         positionX[1] = o2.getX().doubleValue();
         positionY[1] = o2.getY().doubleValue();
-        
+
         mass[0] = o1.getMass().doubleValue();
         mass[1] = o2.getMass().doubleValue();
-        
+
         processTwoDimensionalCollision(0, 1, cor.doubleValue());
-        
+
         o1.setVelocity(new TripleNumber(New.num(velocityX[0]), New.num(velocityY[0]), ZERO));
         o2.setVelocity(new TripleNumber(New.num(velocityX[1]), New.num(velocityY[1]), ZERO));
     }

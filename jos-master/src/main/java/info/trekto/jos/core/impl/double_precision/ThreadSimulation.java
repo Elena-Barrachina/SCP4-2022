@@ -2,40 +2,22 @@ package info.trekto.jos.core.impl.double_precision;
 
 import info.trekto.jos.core.impl.single_precision.SimulationLogicFloat;
 
-import java.util.concurrent.Semaphore;
-
 public class ThreadSimulation extends Thread
 {
+    private final int startParticle;
+    private final int endParticle;
     private final SimulationLogicDouble logic;
-    private int startParticle;
-    private int endParticle;
-    private final QueueWork queue;
 
-    public ThreadSimulation(SimulationLogicDouble logic, QueueWork queue) {
+    public ThreadSimulation(SimulationLogicDouble logic, int startParticle, int endParticle) {
         this.logic = logic;
-        this.startParticle = 0;
-        this.endParticle = 0;
-        this.queue = queue;
-    }
-
-    public void setStartParticle(int startParticle) {
         this.startParticle = startParticle;
-    }
-
-    public void setEndParticle(int endParticle) {
         this.endParticle = endParticle;
     }
 
     public void run(){
-        while(queue.dynamicUpdate(this)>0){
-            for(int i = startParticle; i < endParticle; i++) {
-                runObject(i);
-            }
+        for(int i = startParticle; i < endParticle; i++) {
+            runObject(i);
         }
-    }
-
-    private void showPartialStats(){
-        System.out.println("I'm some stats.\n");
     }
 
     private void runObject(int i){

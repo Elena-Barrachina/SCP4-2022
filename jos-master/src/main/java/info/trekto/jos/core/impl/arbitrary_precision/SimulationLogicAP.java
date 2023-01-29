@@ -32,26 +32,18 @@ public class SimulationLogicAP implements SimulationLogic {
         String threads = System.getenv("SIMULATION_NUMBER_OF_THREADS");
         if (threads == null) { threads = "4"; }
         int numberThreads = Integer.parseInt(threads);
-        System.out.println("Number of threads: " + threads);
+        //System.out.println("Number of threads: " + threads);
         ThreadSimulation[] threadSimulation = new ThreadSimulation[numberThreads];
+        List<SimulationObject> newObjectsThread = new ArrayList<>();
         List<SimulationObject> oldObjects = simulation.getObjects().subList(fromIndex, toIndex);
-        int startIndex = 0;
-        int endIndex = 0;
-        int objectsLeft = oldObjects.size();
+        for (ImmutableSimulationObject ignored : oldObjects) {
+            SimulationObject newObject = newObjectsIterator.next();
+            newObjectsThread.add(newObject);
+        }
+        QueueWork queue = new QueueWork(oldObjects, newObjectsThread);
         for(int i = 0; i < numberThreads; i++) {
-            int threadsLeft = numberThreads - i;
-            int objectsThread = objectsLeft / threadsLeft;
-            objectsLeft -= objectsThread;
-            startIndex = endIndex;
-            endIndex = startIndex + objectsThread;
-            List<SimulationObject> oldObjectsThread = oldObjects.subList(startIndex, endIndex);
-            List<SimulationObject> newObjectsThread = new ArrayList<>();
-            for (ImmutableSimulationObject ignored : oldObjectsThread) {
-                SimulationObject newObject = newObjectsIterator.next();
-                newObjectsThread.add(newObject);
-            }
 
-            threadSimulation[i] = new ThreadSimulation(this, oldObjectsThread, newObjectsThread);
+            threadSimulation[i] = new ThreadSimulation(this, queue);
             threadSimulation[i].start();
         }
 
@@ -59,10 +51,17 @@ public class SimulationLogicAP implements SimulationLogic {
             try {
                 threadSimulation[i].join();
             } catch (InterruptedException e) {
-                System.out.println("TODOOOOOO HANDLE ERROROOOOOR");
+                CancelThreads(threadSimulation);
             }
         }
+    }
 
+    void CancelThreads(ThreadSimulation[] threads){
+        for (int i = 0; i < threads.length; i++) {
+            if (threads[i].isAlive() && (!threads[i].isInterrupted())){
+                threads[i].interrupt();
+            }
+        }
     }
 
     public void calculateAllNewValues() {
