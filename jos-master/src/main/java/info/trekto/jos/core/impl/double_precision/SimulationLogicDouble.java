@@ -101,7 +101,10 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
 
 
     public void calculateAllNewValues() {
-        int numberThreads = 4;
+        String threads = System.getenv("SIMULATION_NUMBER_OF_THREADS");
+        if (threads == null) { threads = "4"; }
+        int numberThreads = Integer.parseInt(threads);
+        System.out.println("Number of threads: " + threads);
         ThreadSimulation[] threadSimulation = new ThreadSimulation[numberThreads];
         int objectsLeft = positionX.length;
         for(int i = 0; i < numberThreads; i++) {
