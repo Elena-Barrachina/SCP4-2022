@@ -120,6 +120,16 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
                 threadSimulation[i].join();
             } catch (InterruptedException e) {
                 System.out.println("TODOOOOOO HANDLE ERROROOOOOR");
+                CancelThreads(threadSimulation);
+                System.out.println("DOOOOOOOOONE");
+            }
+        }
+    }
+
+    void CancelThreads(ThreadSimulation[] threads){
+        for (int i = 0; i < numberThreads; i++) {
+            if (threads[i].isAlive() && (!threads[i].isInterrupted())){
+                threads[i].interrupt();
             }
         }
     }
