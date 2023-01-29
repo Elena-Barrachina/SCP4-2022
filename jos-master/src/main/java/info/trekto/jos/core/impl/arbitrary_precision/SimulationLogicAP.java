@@ -29,6 +29,8 @@ public class SimulationLogicAP implements SimulationLogic {
     QueueWork queue;
     Semaphore semProgress;
     Semaphore semIter;
+    Semaphore semPartials;
+    Semaphore semGlobals;
     private Lock lock;
     private Condition condGlobals;
     int iteration;
@@ -42,11 +44,13 @@ public class SimulationLogicAP implements SimulationLogic {
         this.queue = new QueueWork();
         semProgress = new Semaphore(0);
         semIter = new Semaphore(0);
+        semGlobals = new Semaphore(0);
+        semPartials = new Semaphore(0);
         this.lock = new ReentrantLock();
         this.condGlobals = lock.newCondition();
 
         for(int i = 0; i < numberThreads; i++) {
-            threadSimulation[i] = new ThreadSimulation(this, queue, semProgress, semIter, lock, condGlobals);
+            threadSimulation[i] = new ThreadSimulation(this, queue, semProgress, semIter, semPartials, semGlobals, lock, condGlobals);
         }
 
         iteration = 0;
@@ -113,15 +117,9 @@ public class SimulationLogicAP implements SimulationLogic {
     }
 
     void showGlobalStats(){
-        // Wait for all threads to finish iteration
-        try {
-            semProgress.acquire(numberThreads);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         // Wait until all threads have finished printing partial stats to show global stats
         try {
-            semProgress.acquire(numberThreads);
+            semPartials.acquire(numberThreads);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

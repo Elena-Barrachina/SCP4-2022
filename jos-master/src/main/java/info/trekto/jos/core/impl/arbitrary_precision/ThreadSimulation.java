@@ -20,16 +20,19 @@ public class ThreadSimulation extends Thread
     boolean search;
     Semaphore semProgress;
     Semaphore semIter;
+    Semaphore semPartials;
+    Semaphore semGlobals;
     private Lock lock;
     private Condition condGlobals;
 
 
-    public ThreadSimulation(SimulationLogicAP logicAP, QueueWork queue, Semaphore semProgress, Semaphore semIter, Lock lock, Condition conGlobals) {
+    public ThreadSimulation(SimulationLogicAP logicAP, QueueWork queue, Semaphore semProgress, Semaphore semIter, Semaphore semPartials, Semaphore semGlobals, Lock lock, Condition conGlobals) {
         this.logicAP = logicAP;
         this.oldObjects = null;
         this.newObjects = null;
         this.queue = queue;
         this.search = true;
+        this.semPartials = semPartials;
         this.semProgress = semProgress;
         this.semIter = semIter;
         this.lock = lock;
@@ -61,9 +64,7 @@ public class ThreadSimulation extends Thread
             } else {
                 semIter.release();
                 iter++;
-                if(iter%25 == 0){
-                    showStats();
-                }
+                if(iter%25 == 0){ showStats(); }
 
                 try {
                     semProgress.acquire();
@@ -121,14 +122,12 @@ public class ThreadSimulation extends Thread
 
 
     void showStats(){
-        // Wait for all threads to finish iteration
-        semProgress.release();
         printStats(this);
         // Wait till all threads have finished printing partial stats to show global stats
-        semProgress.release();
         lock.lock();
         // Wait for global stats to be printed
         try {
+            semPartials.release();
             condGlobals.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
