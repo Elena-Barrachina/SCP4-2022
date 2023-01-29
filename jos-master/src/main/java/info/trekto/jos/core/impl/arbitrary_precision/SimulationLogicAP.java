@@ -10,6 +10,7 @@ import info.trekto.jos.core.numbers.Number;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import static info.trekto.jos.core.Controller.C;
 import static info.trekto.jos.core.numbers.NumberFactoryProxy.*;
@@ -20,39 +21,66 @@ import static info.trekto.jos.core.numbers.NumberFactoryProxy.*;
  */
 public class SimulationLogicAP implements SimulationLogic {
     final Simulation simulation;
+    int numberThreads;
+    ThreadSimulation[] threadSimulation;
+    QueueWork queue;
+    Semaphore semProgress;
+    Semaphore semIter;
+    int iteration;
 
     public SimulationLogicAP(Simulation simulation) {
         this.simulation = simulation;
+        String threads = System.getenv("SIMULATION_NUMBER_OF_THREADS");
+        if (threads == null) { threads = "4";}
+        this.numberThreads = Integer.parseInt(threads);
+        this.threadSimulation = new ThreadSimulation[numberThreads];
+        this.queue = new QueueWork();
+        semProgress = new Semaphore(0);
+        semIter = new Semaphore(0);
+
+        for(int i = 0; i < numberThreads; i++) {
+            threadSimulation[i] = new ThreadSimulation(this, queue, semProgress, semIter);
+        }
+
+        iteration = 0;
+
     }
 
     public void calculateNewValues(int fromIndex, int toIndex) {
         Iterator<SimulationObject> newObjectsIterator = simulation.getAuxiliaryObjects().subList(fromIndex, toIndex).iterator();
-
-        /* We should not change oldObject. We can change only newObject. */
-        String threads = System.getenv("SIMULATION_NUMBER_OF_THREADS");
-        if (threads == null) { threads = "4"; }
-        int numberThreads = Integer.parseInt(threads);
         //System.out.println("Number of threads: " + threads);
-        ThreadSimulation[] threadSimulation = new ThreadSimulation[numberThreads];
         List<SimulationObject> newObjectsThread = new ArrayList<>();
         List<SimulationObject> oldObjects = simulation.getObjects().subList(fromIndex, toIndex);
         for (ImmutableSimulationObject ignored : oldObjects) {
             SimulationObject newObject = newObjectsIterator.next();
             newObjectsThread.add(newObject);
         }
-        QueueWork queue = new QueueWork(oldObjects, newObjectsThread);
-        for(int i = 0; i < numberThreads; i++) {
+        // Protected in QueueWork
+        queue.updateQueueWork(oldObjects, newObjectsThread);
 
-            threadSimulation[i] = new ThreadSimulation(this, queue);
-            threadSimulation[i].start();
-        }
-
-        for(int i = 0; i < numberThreads; i++) {
-            try {
-                threadSimulation[i].join();
-            } catch (InterruptedException e) {
-                CancelThreads(threadSimulation);
+        if(iteration == 0){
+            for(int i = 0; i < numberThreads; i++) {
+                threadSimulation[i].start();
             }
+        }
+        signalThreads();
+        try {
+            semIter.acquire(numberThreads);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        iteration++;
+        // TODO: Wait (keep threads alive)
+        // TODO:NE Notify All (from queue)
+
+        // Move this out!
+        if(iteration == simulation.getProperties().getNumberOfIterations()){
+            for(int i = 0; i < numberThreads; i++) {
+                threadSimulation[i].setSearch(false);
+            }
+            // Send signal so that threads may continue execution
+            signalThreads();
+            joinThreads();
         }
     }
 
@@ -62,6 +90,20 @@ public class SimulationLogicAP implements SimulationLogic {
                 threads[i].interrupt();
             }
         }
+    }
+
+    void joinThreads(){
+        for(int i = 0; i < numberThreads; i++) {
+            try {
+                threadSimulation[i].join();
+            } catch (InterruptedException e) {
+                CancelThreads(threadSimulation);
+            }
+        }
+    }
+
+    void signalThreads(){
+        semProgress.release(numberThreads);
     }
 
     public void calculateAllNewValues() {

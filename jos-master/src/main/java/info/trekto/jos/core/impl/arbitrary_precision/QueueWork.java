@@ -12,9 +12,9 @@ public class QueueWork {
     private int processed;
     Lock lock;
 
-    public QueueWork(List<SimulationObject> oldObjects, List<SimulationObject> newObjects){
-        this.oldObjects = oldObjects;
-        this.newObjects = newObjects;
+    public QueueWork(){
+        this.oldObjects = null;
+        this.newObjects = null;
         this.processed = 0;
         this.lock = new ReentrantLock();
     }

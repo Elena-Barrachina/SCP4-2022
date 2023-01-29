@@ -6,6 +6,7 @@ import info.trekto.jos.core.model.impl.TripleNumber;
 import info.trekto.jos.core.numbers.Number;
 
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public class ThreadSimulation extends Thread
 {
@@ -13,13 +14,19 @@ public class ThreadSimulation extends Thread
     private List<SimulationObject> oldObjects;
     private List<SimulationObject> newObjects;
     private QueueWork queue;
+    boolean search;
+    Semaphore semProgress;
+    Semaphore semIter;
 
 
-    public ThreadSimulation(SimulationLogicAP logicAP, QueueWork queue) {
+    public ThreadSimulation(SimulationLogicAP logicAP, QueueWork queue, Semaphore semProgress, Semaphore semIter) {
         this.logicAP = logicAP;
         this.oldObjects = null;
         this.newObjects = null;
         this.queue = queue;
+        this.search = true;
+        this.semProgress = semProgress;
+        this.semIter = semIter;
     }
 
     public void setOldObjects(List<SimulationObject> oldObjects) {
@@ -30,10 +37,27 @@ public class ThreadSimulation extends Thread
         this.newObjects = newObjects;
     }
 
+    public void setSearch(boolean search){ this.search = search; }
+
     public void run(){
-        while(queue.dynamicUpdate(this)>0){
-            for(int i = 0; i < oldObjects.size(); i++) {
-                runObject(oldObjects.get(i), newObjects.get(i));
+        try {
+            semProgress.acquire(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        while(search){
+            if(queue.dynamicUpdate(this)>0){
+                for(int i = 0; i < oldObjects.size(); i++) {
+                    runObject(oldObjects.get(i), newObjects.get(i));
+                }
+            } else {
+                semIter.release();
+
+                try {
+                    semProgress.acquire();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
