@@ -127,7 +127,7 @@ public class SimulationLogicDouble extends Kernel implements SimulationLogic {
     }
 
     void CancelThreads(ThreadSimulation[] threads){
-        for (int i = 0; i < numberThreads; i++) {
+        for (int i = 0; i < threads.length; i++) {
             if (threads[i].isAlive() && (!threads[i].isInterrupted())){
                 threads[i].interrupt();
             }
