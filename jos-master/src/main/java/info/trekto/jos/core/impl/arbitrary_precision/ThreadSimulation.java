@@ -7,6 +7,9 @@ import info.trekto.jos.core.numbers.Number;
 
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ThreadSimulation extends Thread
 {
@@ -17,9 +20,11 @@ public class ThreadSimulation extends Thread
     boolean search;
     Semaphore semProgress;
     Semaphore semIter;
+    private Lock lock;
+    private Condition condGlobals;
 
 
-    public ThreadSimulation(SimulationLogicAP logicAP, QueueWork queue, Semaphore semProgress, Semaphore semIter) {
+    public ThreadSimulation(SimulationLogicAP logicAP, QueueWork queue, Semaphore semProgress, Semaphore semIter, Lock lock, Condition conGlobals) {
         this.logicAP = logicAP;
         this.oldObjects = null;
         this.newObjects = null;
@@ -27,6 +32,8 @@ public class ThreadSimulation extends Thread
         this.search = true;
         this.semProgress = semProgress;
         this.semIter = semIter;
+        this.lock = lock;
+        this.condGlobals = conGlobals;
     }
 
     public void setOldObjects(List<SimulationObject> oldObjects) {
@@ -40,6 +47,7 @@ public class ThreadSimulation extends Thread
     public void setSearch(boolean search){ this.search = search; }
 
     public void run(){
+        int iter = 0;
         try {
             semProgress.acquire(1);
         } catch (InterruptedException e) {
@@ -52,6 +60,10 @@ public class ThreadSimulation extends Thread
                 }
             } else {
                 semIter.release();
+                iter++;
+                if(iter%25 == 0){
+                    showStats();
+                }
 
                 try {
                     semProgress.acquire();
@@ -60,6 +72,7 @@ public class ThreadSimulation extends Thread
                 }
             }
         }
+        if(iter%25 != 0){ showStats(); }
     }
 
     private void runObject(ImmutableSimulationObject oldObject, SimulationObject newObject){
@@ -105,4 +118,22 @@ public class ThreadSimulation extends Thread
             logicAP.bounceFromScreenBorders(newObject);
         }
     }
+
+
+    void showStats(){
+        // Wait for all threads to finish iteration
+        semProgress.release();
+        printStats(this);
+        // Wait till all threads have finished printing partial stats to show global stats
+        semProgress.release();
+        lock.lock();
+        // Wait for global stats to be printed
+        try {
+            condGlobals.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        lock.unlock();
+    }
+    static synchronized void printStats(ThreadSimulation threadSimulation){ System.out.println("CONGRATULATIONS!"); };
 }

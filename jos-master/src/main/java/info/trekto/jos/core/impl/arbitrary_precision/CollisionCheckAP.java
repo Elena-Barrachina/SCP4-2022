@@ -25,6 +25,8 @@ class CollisionCheckAP {
     public void checkAllCollisions()
     {
         if (simulation.isCollisionExists()) {
+            //countCollisions++;
+            //return countCollisions;
             return;
         }
 

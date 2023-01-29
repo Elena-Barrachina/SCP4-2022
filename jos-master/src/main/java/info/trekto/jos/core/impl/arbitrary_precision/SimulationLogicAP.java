@@ -11,6 +11,9 @@ import java.awt.*;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static info.trekto.jos.core.Controller.C;
 import static info.trekto.jos.core.numbers.NumberFactoryProxy.*;
@@ -26,6 +29,8 @@ public class SimulationLogicAP implements SimulationLogic {
     QueueWork queue;
     Semaphore semProgress;
     Semaphore semIter;
+    private Lock lock;
+    private Condition condGlobals;
     int iteration;
 
     public SimulationLogicAP(Simulation simulation) {
@@ -37,9 +42,11 @@ public class SimulationLogicAP implements SimulationLogic {
         this.queue = new QueueWork();
         semProgress = new Semaphore(0);
         semIter = new Semaphore(0);
+        this.lock = new ReentrantLock();
+        this.condGlobals = lock.newCondition();
 
         for(int i = 0; i < numberThreads; i++) {
-            threadSimulation[i] = new ThreadSimulation(this, queue, semProgress, semIter);
+            threadSimulation[i] = new ThreadSimulation(this, queue, semProgress, semIter, lock, condGlobals);
         }
 
         iteration = 0;
@@ -70,10 +77,8 @@ public class SimulationLogicAP implements SimulationLogic {
             throw new RuntimeException(e);
         }
         iteration++;
-        // TODO: Wait (keep threads alive)
-        // TODO:NE Notify All (from queue)
+        if (iteration%25 == 0) { showGlobalStats(); }
 
-        // Move this out!
         if(iteration == simulation.getProperties().getNumberOfIterations()){
             for(int i = 0; i < numberThreads; i++) {
                 threadSimulation[i].setSearch(false);
@@ -81,6 +86,7 @@ public class SimulationLogicAP implements SimulationLogic {
             // Send signal so that threads may continue execution
             signalThreads();
             joinThreads();
+            if (iteration%25 != 0) { showGlobalStats(); }
         }
     }
 
@@ -105,6 +111,28 @@ public class SimulationLogicAP implements SimulationLogic {
     void signalThreads(){
         semProgress.release(numberThreads);
     }
+
+    void showGlobalStats(){
+        // Wait for all threads to finish iteration
+        try {
+            semProgress.acquire(numberThreads);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        // Wait until all threads have finished printing partial stats to show global stats
+        try {
+            semProgress.acquire(numberThreads);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        printGlobalStats();
+        // Wait for global stats to be printed
+        // TODO: Add conditional variable
+        lock.lock();
+        condGlobals.signalAll();
+        lock.unlock();
+    }
+    void printGlobalStats(){ System.out.println("I GLOBALLY CONGRATULATE YOU!"); };
 
     public void calculateAllNewValues() {
         calculateNewValues(0, simulation.getObjects().size());
