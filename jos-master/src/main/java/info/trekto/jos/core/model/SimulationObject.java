@@ -25,4 +25,6 @@ public interface SimulationObject extends ImmutableSimulationObject {
     void setMass(Number mass);
 
     void setId(String id);
+
+    void setThreadId(int threadId);
 }

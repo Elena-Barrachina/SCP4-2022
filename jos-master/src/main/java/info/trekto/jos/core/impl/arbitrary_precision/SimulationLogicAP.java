@@ -56,7 +56,7 @@ public class SimulationLogicAP implements SimulationLogic {
         this.condGlobals = lock.newCondition();
 
         for(int i = 0; i < numberThreads; i++) {
-            threadSimulation[i] = new ThreadSimulation(this, queue, semProgress, semIter, semPartials, semGlobals, lock, condGlobals);
+            threadSimulation[i] = new ThreadSimulation(i, this, queue, semProgress, semIter, semPartials, semGlobals, lock, condGlobals);
         }
 
         iteration = 0;
@@ -215,6 +215,9 @@ public class SimulationLogicAP implements SimulationLogic {
         }
         if (mergeOnCollision) {
             simulation.getAuxiliaryObjects().removeAll(forRemoval);
+            for(int i = 0; i < forRemoval.size(); i++){
+                threadSimulation[forRemoval.get(i).getThreadId()].mergedParticles += 1;
+            }
         }
     }
 

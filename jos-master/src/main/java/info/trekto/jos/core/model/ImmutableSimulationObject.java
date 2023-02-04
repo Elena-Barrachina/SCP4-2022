@@ -25,4 +25,6 @@ public interface ImmutableSimulationObject {
     Number getMass();
 
     String getId();
+
+    int getThreadId();
 }

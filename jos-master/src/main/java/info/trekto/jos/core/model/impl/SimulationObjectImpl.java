@@ -24,6 +24,8 @@ public class SimulationObjectImpl implements SimulationObject {
     private Number radius;
     private int color;
     private Number mass;
+    private int threadId = 0;
+
 
     /* Whether the object is static */
     boolean motionless = false;
@@ -49,6 +51,11 @@ public class SimulationObjectImpl implements SimulationObject {
         this.y = simulationObject.getY();
         this.z = simulationObject.getZ();
     }
+
+    @Override
+    public void setThreadId(int threadId) { this.threadId = threadId; }
+    @Override
+    public int getThreadId() { return this.threadId; }
 
     @Override
     public Number getX() {
