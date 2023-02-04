@@ -64,7 +64,7 @@ public class ThreadSimulation extends Thread
             } else {
                 semIter.release();
                 iter++;
-                if(iter%25 == 0){ showStats(); }
+                if(iter%logicAP.numberMStats == 0){ showStats(); }
 
                 try {
                     semProgress.acquire();
@@ -73,7 +73,7 @@ public class ThreadSimulation extends Thread
                 }
             }
         }
-        if(iter%25 != 0){ showStats(); }
+        if(iter%logicAP.numberMStats != 0){ showStats(); }
     }
 
     private void runObject(ImmutableSimulationObject oldObject, SimulationObject newObject){

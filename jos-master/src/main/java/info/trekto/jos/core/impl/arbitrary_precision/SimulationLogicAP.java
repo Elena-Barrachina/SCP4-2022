@@ -25,6 +25,7 @@ import static info.trekto.jos.core.numbers.NumberFactoryProxy.*;
 public class SimulationLogicAP implements SimulationLogic {
     final Simulation simulation;
     int numberThreads;
+    public int numberMStats;
     ThreadSimulation[] threadSimulation;
     QueueWork queue;
     Semaphore semProgress;
@@ -37,9 +38,14 @@ public class SimulationLogicAP implements SimulationLogic {
 
     public SimulationLogicAP(Simulation simulation) {
         this.simulation = simulation;
+        // Num. threads
         String threads = System.getenv("SIMULATION_NUMBER_OF_THREADS");
         if (threads == null) { threads = "4";}
         this.numberThreads = Integer.parseInt(threads);
+        // Num. iterations for partial stats
+        String mStats = System.getenv("SIMULATION_M");
+        if (mStats == null) { mStats = "25";}
+        this.numberMStats = Integer.parseInt(mStats);
         this.threadSimulation = new ThreadSimulation[numberThreads];
         this.queue = new QueueWork();
         semProgress = new Semaphore(0);
@@ -81,7 +87,7 @@ public class SimulationLogicAP implements SimulationLogic {
             throw new RuntimeException(e);
         }
         iteration++;
-        if (iteration%25 == 0) { showGlobalStats(); }
+        if (iteration%numberMStats == 0) { showGlobalStats(); }
 
         if(iteration == simulation.getProperties().getNumberOfIterations()){
             for(int i = 0; i < numberThreads; i++) {
@@ -90,7 +96,7 @@ public class SimulationLogicAP implements SimulationLogic {
             // Send signal so that threads may continue execution
             signalThreads();
             joinThreads();
-            if (iteration%25 != 0) { showGlobalStats(); }
+            if (iteration%numberMStats != 0) { showGlobalStats(); }
         }
     }
 
