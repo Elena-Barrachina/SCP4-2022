@@ -151,10 +151,11 @@ public class ThreadSimulation extends Thread
         int average = threadSimulation.logicAP.globalProcessedParticles();
         threadSimulation.imbalance = (average - threadSimulation.processedParticles)/ threadSimulation.processedParticles;
         // (f-i)/i
-        System.out.println("PARTIAL STATISTICS OF THREAD" + threadSimulation.threadId);
+        System.out.println("--- PARTIAL STATISTICS OF THREAD " + threadSimulation.threadId + " ---");
         System.out.println("Compute Time: " + threadSimulation.computeTime);
         System.out.println("Load Imbalance %: " + threadSimulation.imbalance + " %");
         System.out.println("Processed Particles: " + threadSimulation.processedParticles);
         System.out.println("Merged Particles: " + threadSimulation.mergedParticles);
+        System.out.println("");
     };
 }

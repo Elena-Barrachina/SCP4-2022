@@ -158,11 +158,12 @@ public class SimulationLogicAP implements SimulationLogic {
 
         globalImbalance /=numberThreads;
 
-        System.out.println("GLOBAL STATISTICS:");
+        System.out.println("--- GLOBAL STATISTICS ---");
         System.out.println("Compute Time: " + globalComputeTime);
         System.out.println("Load Imbalance %: " + globalImbalance + " %");
         System.out.println("Processed Particles: " + globalProcessedParticles);
         System.out.println("Merged Particles: " + globalMergedParticles);
+        System.out.println("");
     };
 
     public void calculateAllNewValues() {
