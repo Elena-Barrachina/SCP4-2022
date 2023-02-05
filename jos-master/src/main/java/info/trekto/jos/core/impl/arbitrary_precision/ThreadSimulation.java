@@ -24,15 +24,16 @@ public class ThreadSimulation extends Thread
     Semaphore semGlobals;
     private Lock lock;
     private Condition condGlobals;
+
     public int mergedParticles = 0;
     public int processedParticles = 0;
+    int imbalance = 0;
     int threadId;
     long startTime = System.currentTimeMillis();
     long computeTime = 0;
 
 
     public ThreadSimulation(int threadId, SimulationLogicAP logicAP, QueueWork queue, Semaphore semProgress, Semaphore semIter, Semaphore semPartials, Semaphore semGlobals, Lock lock, Condition conGlobals) {
-        this.threadId = threadId;
         this.logicAP = logicAP;
         this.oldObjects = null;
         this.newObjects = null;
@@ -43,6 +44,7 @@ public class ThreadSimulation extends Thread
         this.semIter = semIter;
         this.lock = lock;
         this.condGlobals = conGlobals;
+        this.threadId = threadId;
     }
 
     public void setOldObjects(List<SimulationObject> oldObjects) {
@@ -146,13 +148,13 @@ public class ThreadSimulation extends Thread
     }
     static synchronized void printStats(ThreadSimulation threadSimulation){
         threadSimulation.computeTime = System.currentTimeMillis() - threadSimulation.startTime;
-        threadSimulation.mergedParticles += 0;
-        threadSimulation.threadId += 0;
-        threadSimulation.processedParticles += 0;
-        System.out.println("PARTIAL STATISTICS OF THREAD" + threadSimulation.threadId + "\n");
-        System.out.println("Compute Time: " + threadSimulation.computeTime + "\n");
-        System.out.println("Load Imbalance: " + "Processed particles - Average processed particles" + "\n");
-        System.out.println("Processed Particles: " + threadSimulation.processedParticles + "\n");
-        System.out.println("Merged Particles: " + threadSimulation.mergedParticles + "\n");
+        int average = threadSimulation.logicAP.globalProcessedParticles();
+        threadSimulation.imbalance = (average - threadSimulation.processedParticles)/ threadSimulation.processedParticles;
+        // (f-i)/i
+        System.out.println("PARTIAL STATISTICS OF THREAD" + threadSimulation.threadId);
+        System.out.println("Compute Time: " + threadSimulation.computeTime);
+        System.out.println("Load Imbalance %: " + threadSimulation.imbalance + " %");
+        System.out.println("Processed Particles: " + threadSimulation.processedParticles);
+        System.out.println("Merged Particles: " + threadSimulation.mergedParticles);
     };
 }

@@ -131,12 +131,39 @@ public class SimulationLogicAP implements SimulationLogic {
         }
         printGlobalStats();
         // Wait for global stats to be printed
-        // TODO: Add conditional variable
         lock.lock();
         condGlobals.signalAll();
         lock.unlock();
     }
-    void printGlobalStats(){ System.out.println("I GLOBALLY CONGRATULATE YOU!"); };
+
+    public int globalProcessedParticles (){
+        int globalProcessed = 0;
+        for(int i = 0; i < numberThreads; i++){
+            globalProcessed += threadSimulation[i].processedParticles;
+        }
+        return globalProcessed;
+    }
+    void printGlobalStats(){
+        int globalComputeTime = 0;
+        int globalImbalance = 0;
+        int globalProcessedParticles = 0;
+        int globalMergedParticles = 0;
+
+        for(int i = 0; i < numberThreads; i++){
+            globalComputeTime += threadSimulation[i].computeTime;
+            globalImbalance += threadSimulation[i].imbalance;
+            globalProcessedParticles += threadSimulation[i].processedParticles;
+            globalMergedParticles += threadSimulation[i].mergedParticles;
+        }
+
+        globalImbalance /=numberThreads;
+
+        System.out.println("GLOBAL STATISTICS:");
+        System.out.println("Compute Time: " + globalComputeTime);
+        System.out.println("Load Imbalance %: " + globalImbalance + " %");
+        System.out.println("Processed Particles: " + globalProcessedParticles);
+        System.out.println("Merged Particles: " + globalMergedParticles);
+    };
 
     public void calculateAllNewValues() {
         calculateNewValues(0, simulation.getObjects().size());
